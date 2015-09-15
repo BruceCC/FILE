@@ -1,0 +1,120 @@
+1 变量及其命名
+对象变量前面加@
+类变量前面加@@
+全局变量加$
+类名常量名首字母要大写
+
+$global_var = 100  #全局变量
+
+class Square
+	def initialize(length)  #自带的构造方法，属于对象方法
+		@length = length  #@length为对象变量
+		if defined?(@@num_of_squares)
+			@@number_of_squares += 1   #@@number_of_squares为类变量，所有对象都可以用
+		else
+			@@num_of_squares = 1
+	end
+	
+	def self.test    #类方法有self.前缀
+		puts "hello"    
+	end
+	
+	def self.print   #类方法另外一种形式
+		puts "hello"    
+	end
+end
+
+class Parent
+	def initialize(name)
+		@name = name
+	end
+	
+	def name
+		return @name
+	end
+end
+
+class Child < Parent   //  使用符号 < 继承某个类
+	def name
+		"Dr." + super   //super代表调用基类同名方法
+	end
+end
+
+
+#直接复写已有的类和方法
+class String   #复写ruby核心的String类，好恐怖哦
+	def length
+		20
+	end
+end
+
+class String   #复写ruby核心的String类，好恐怖哦
+	private def length  #申明私有方法，也可以为protected或者public
+		20
+	end
+	def fun
+	end
+	private fun   #这也是一种申明私有化方法的方式
+end
+
+
+module ToolBox   #定义模块
+	class Ruler
+		attr_accessor:length
+	end
+end
+
+
+module Country   #定义模块
+	class Ruler
+		attr_accessor:length
+	end
+end
+b = Country::Ruler.new  #调用模块中的内容
+
+
+module UsefulFeatures
+	def class_name
+		self.class.to_s
+	end
+end
+
+class Person
+	include UsefulFeatures  #模块像某种超级类，可被包含到其他类中，用模块提供的功能扩展其他类
+end
+
+x=Person.new
+puts x.class_name
+
+module AnotherModule
+	def do_stuff
+		puts "this is great"
+	end
+end
+
+include AnotherModule   #include也可把模块内容放到当前作用域中
+do_stuff  #直接调用，下面这种方法也可以，就有点像调用类方法
+AnotherModule.do_stuff
+
+#基本文件包含
+require "String_extense"
+load "String_extense"   #这两种方式都可以，都可以接受本地路径和绝对路径
+require $debug_mode == 0 ? "normal-classess" : "debug-classes"  #有条件的包含代码
+
+
+#异常处理
+begin
+	code...
+rescue
+	code....
+	
+	
+调试ruby程序
+ruby -r debug test.rb
+#list列出当前正在运行的代码
+#list 2-4显示第2行到第4行代码
+#step 单行运行下一行代码
+#cont 继续运行程序，直到程序结束
+#break 3  在第三行设置断点
+#watch 设置条件断点
+#quit 退出调试器
